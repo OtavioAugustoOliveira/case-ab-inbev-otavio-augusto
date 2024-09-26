@@ -4,10 +4,7 @@
 
 # COMMAND ----------
 
-from pyspark.sql.types import StructType, StructField, StringType, FloatType
-from pyspark.sql.functions import col, when, trim, initcap, length, lit, row_number, desc, current_timestamp, count, round
-from pyspark.sql.window import Window
-import re
+from pyspark.sql.functions import col, current_timestamp, count, round
 import os
 
 # COMMAND ----------
@@ -56,7 +53,8 @@ silver_df = spark.read.parquet(full_input_path)
 
 # COMMAND ----------
 
-#Análise de presença na internet: Qual perfil de cervejaria costuma ter maior indice de preenchimento de url e telefone para contato?
+# Análise de presença na internet: 
+# Qual perfil de cervejaria costuma ter maior indice de preenchimento de url e telefone para contato?
 
 
 # Total de cervejarias por tipo

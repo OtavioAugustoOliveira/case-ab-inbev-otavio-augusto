@@ -7,8 +7,7 @@
 import requests
 import os
 from pyspark.sql.types import StructType, StructField, StringType
-from pyspark.sql.functions import current_timestamp, coalesce, col
-from datetime import datetime
+from pyspark.sql.functions import current_timestamp
 
 # COMMAND ----------
 

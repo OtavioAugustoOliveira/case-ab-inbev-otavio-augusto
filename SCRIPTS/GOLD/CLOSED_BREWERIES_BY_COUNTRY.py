@@ -4,10 +4,7 @@
 
 # COMMAND ----------
 
-from pyspark.sql.types import StructType, StructField, StringType, FloatType
-from pyspark.sql.functions import col, when, trim, initcap, length, lit, row_number, desc, current_timestamp, count, round
-from pyspark.sql.window import Window
-import re
+from pyspark.sql.functions import col, current_timestamp, count, round
 import os
 
 # COMMAND ----------
