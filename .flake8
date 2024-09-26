@@ -1,4 +1,4 @@
 [flake8]
 extend-ignore = E203, W503, E303, E402
-max-line-lenght = 120
+max-line-length = 120
 builtins = dbutils, spark, display
