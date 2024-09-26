@@ -7,8 +7,7 @@
 import requests
 import os
 from pyspark.sql.types import StructType, StructField, StringType
-from pyspark.sql.functions import current_timestamp, coalesce, col
-from datetime import datetime
+from pyspark.sql.functions import current_timestamp
 
 # COMMAND ----------
 
@@ -134,3 +133,7 @@ full_output_path = os.path.join(output_path, output_filename)
 bronze_df.write.mode("overwrite").parquet(full_output_path) 
 
 
+
+# COMMAND ----------
+
+#teste

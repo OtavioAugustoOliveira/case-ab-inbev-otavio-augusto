@@ -1,6 +1,5 @@
 # Databricks notebook source
-from pyspark.sql.types import StructType, StructField, StringType, FloatType
-from pyspark.sql.functions import col, when, trim, initcap, length, lit, row_number, desc, current_timestamp
+from pyspark.sql.functions import col, when, trim, initcap, length, lit, row_number, current_timestamp
 from pyspark.sql.window import Window
 import re
 import os
@@ -171,3 +170,7 @@ full_output_path = os.path.join(output_path, output_filename)
 
 # Salvar o DataFrame em formato Parquet no Azure Blob Storage
 adjusted_silver_df.write.mode("overwrite").partitionBy("COUNTRY_NAME", "STATE_PROVINCE").parquet(full_output_path) 
+
+# COMMAND ----------
+
+#teste
