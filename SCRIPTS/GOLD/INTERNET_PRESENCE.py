@@ -113,3 +113,7 @@ full_output_path = os.path.join(output_path, output_filename)
 
 # Salvar o DataFrame em formato Parquet no Azure Blob Storage
 internet_presence_with_percentage_df.write.mode("overwrite").parquet(full_output_path) 
+
+# COMMAND ----------
+
+#teste
