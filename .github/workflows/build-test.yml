@@ -1,0 +1,66 @@
+name: Build and Test
+
+on:
+  push:
+    branches:
+      - DEV  # Branch que aciona o pipeline
+    paths:
+      - 'SCRIPTS/**'
+  pull_request:
+    branches:
+      - DEV
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Obtém o histórico completo do Git
+
+      - name: Set up Python 3.x
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      
+      - name: Instalando dependências para o teste de qualidade
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8 flake8-colors black
+  
+
+      - name: Jobs Execution URL
+        run: bash .github/workflows/templates/jobs_execution_url.sh
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+
+      - name: Detect Changes
+        id: detect_changes  # Adiciona um ID ao passo
+        run: bash .github/workflows/templates/detect_changes.sh
+        env:
+          GITHUB_OUTPUT: $GITHUB_OUTPUT
+      
+      - name: Quality Testing Notebook
+        run: bash .github/workflows/templates/quality_testing_notebook.sh
+        env:
+          CHANGED_FILES: ${{ steps.detect_changes.outputs.changed_files }}
+      
+      - name: Databricks Environment Setup
+        run: bash .github/workflows/templates/databricks_environment_setup.sh
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+          CHANGED_FILES: ${{ steps.detect_changes.outputs.changed_files }}
+
+      - name: Validate Notebook
+        run: bash .github/workflows/templates/validate_notebook.sh
+        env:
+          CHANGED_FILES: ${{ steps.detect_changes.outputs.changed_files }}
+          EXISTING_CLUSTER_ID: ${{ secrets.EXISTING_CLUSTER_ID }}
+         
+      # - name: Workspace Cleanup
+      #   run: |
+      #     bash .github/workflows/templates/workspace_cleanup.sh
+      #   run: bash .github/workflows/templates/workspace_cleanup.sh
