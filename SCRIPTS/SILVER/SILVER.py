@@ -171,3 +171,7 @@ full_output_path = os.path.join(output_path, output_filename)
 
 # Salvar o DataFrame em formato Parquet no Azure Blob Storage
 adjusted_silver_df.write.mode("overwrite").partitionBy("COUNTRY_NAME", "STATE_PROVINCE").parquet(full_output_path) 
+
+# COMMAND ----------
+
+#teste

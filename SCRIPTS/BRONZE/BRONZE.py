@@ -134,3 +134,7 @@ full_output_path = os.path.join(output_path, output_filename)
 bronze_df.write.mode("overwrite").parquet(full_output_path) 
 
 
+
+# COMMAND ----------
+
+#teste
