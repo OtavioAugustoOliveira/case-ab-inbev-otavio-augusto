@@ -19,12 +19,14 @@
 5. [Orquestração com Azure Data Factory](#orquestração-com-azure-data-factory)
    - [Estrutura dos Pipelines](#estrutura-dos-pipelines)
    - [Controle de Atualização e Retry](#controle-de-atualização-e-retry)
-6. [Processo ETL no Databricks](#processo-etl-no-databricks)
+6. [Monitoramento do Pipeline com Azure Monitor](#monitoramento-do-pipeline-com-azure-monitor)
+7. [Processo ETL no Databricks](#processo-etl-no-databricks)
    - [Camada Bronze](#1-camada-bronze)
    - [Camada Silver](#2-camada-silver)
    - [Camada Gold](#3-camada-gold)
-7. [Visualizações e Dashboards](#visualizações-e-dashboards)
+8. [Visualizações e Dashboards](#visualizações-e-dashboards)
    - [Painéis Criados](#painéis-criados)
+
 
 
 ---
@@ -190,6 +192,13 @@ Realizar agregações e cálculos finais para análises e visualizações.
 - Cada agregação é salva como uma tabela separada no **Blob Storage** na pasta `GOLD`, usando o formato Delta (ex.: `GOLD_BREWERIES_BY_TYPE_AND_LOCATION`).
 
 ---
+
+#Monitoramento do Pipeline com Azure Monitor
+
+Vamos usar o Azure Monitor para monitorar e enviar alertas sobre o status do pipeline de dados. Para isso, é necessário criar um Log Analytics Workspace. Essa ferramenta, por sua vez, serve para centralizar todos os logs e métricas dos serviço usados na nossa arquitetura ( Data Factory, Databricks e Blob Storage).
+
+Ativaremos a coleta de logs nesses serviços para rastrear a execução das atividades, o uso de recursos e a manipulação de dados. Depois, basta configurar alertas para notificar mais rapidamente os problemas que podemos encontrar.
+
 
 # Visualizações e Dashboards
 Os dashboards interativos foram criados no DataBricks a partir de consultas SQL executadas no Hive Metastore para explorar os dados de forma dinâmica e visual. Abaixo estão as visualizações desenvolvidas:
