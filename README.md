@@ -24,10 +24,15 @@ O principal objetivo do projeto é construir um pipeline de dados eficiente e es
 - Construção de visualizações e dashboards interativos para simplificar a exploração dos dados e apoiar decisões baseadas em insights.
 
 ## Arquitetura Geral
-A solução está estruturada em uma arquitetura de **3 camadas de dados** no **Azure Databricks**, usando **Delta Lake**:
-1. **Bronze**: Dados brutos coletados.
-2. **Silver**: Dados limpos e transformados para análise.
-3. **Gold**: Dados finalizados para relatórios e visualizações.
+A arquitetura do projeto é composta pelos seguintes componentes:
+
+Azure Databricks: Utilizado para realizar as transformações de dados (ETLs) e para criar painéis de visualização interativos. Um cluster Spark é configurado para processar os dados de forma eficiente.
+
+GitHub Actions: Gerencia o processo de CI/CD (Integração Contínua e Entrega Contínua) para manter o código atualizado e garantir a implantação automatizada dos notebooks e pipelines.
+
+Azure Data Lake (Blob Storage): Armazena os dados em diferentes camadas (Bronze, Silver e Gold), permitindo o versionamento e a separação de dados brutos, processados e prontos para análise.
+
+Azure Data Factory: Orquestra a execução dos notebooks no Databricks, garantindo a automação e o agendamento dos processos ETL.
 
 ## Detalhes da Arquitetura Medalhão
 
