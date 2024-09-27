@@ -38,6 +38,61 @@ Azure Data Factory: Orquestra a execução dos notebooks no Databricks, garantin
 
 Azure Monitor: Ferramenta para coleta de logs e métricas de execução, desempenho e falhas dos componentes da arquitetura, incluindo Data Factory, Databricks, e Blob Storage. Configurado com alertas e dashboards para monitorar o status do pipeline e qualidade dos dados em tempo real.
 
+# CI/CD com GitHub Actions para Databricks
+
+## Visão Geral
+Este projeto utiliza o **GitHub Actions** para gerenciar o processo de CI/CD dos notebooks do **Azure Databricks**. O fluxo de trabalho garante que os notebooks sejam testados, validados e executados automaticamente sempre que houver alterações no repositório.
+
+## Fluxo de CI/CD
+
+
+
+### 1. Integração com o GitHub
+O **Azure Databricks** está integrado ao repositório GitHub, permitindo versionamento e controle de código dos notebooks. Isso facilita o rastreamento de mudanças, revisões de código e colaborações entre desenvolvedores.
+![Exemplo de Integração com o Databricks](./imagens/commit_databricks.png)
+
+### 2. Detecção de Mudanças via Pull Request (PR) na Branch `dev`
+Sempre que um **Pull Request (PR)** é criado ou atualizado na branch `dev`, o GitHub Actions é acionado para iniciar o processo de CI/CD.
+
+- O fluxo detecta quais notebooks foram alterados no PR.
+
+### 3. Formatação Automática com Black
+Os notebooks Python são automaticamente formatados com o **Black** para garantir que o código segue um padrão consistente e legível.
+
+- **Black** aplica padrões de estilo (PEP 8) para padronizar o layout do código.
+
+### 4. Validação de Qualidade de Código com Flake8
+Após a formatação, os notebooks passam por uma verificação de qualidade de código com o **Flake8**.
+
+- **Flake8** verifica:
+  - Estilo e formatação do código (conformidade com PEP 8).
+  - Problemas de complexidade.
+  - Possíveis bugs ou práticas de codificação incorretas.
+
+### 5. Execução dos Notebooks Alterados no Databricks
+Os notebooks que passaram pelas etapas de formatação e validação são executados como **jobs no Databricks**.
+
+- A execução é feita diretamente via API do Databricks, iniciando jobs para cada notebook alterado.
+- Isso garante que todas as mudanças de código sejam testadas na prática.
+
+### 6. Acompanhamento de Execução via Workflows no Databricks
+Os jobs do Databricks podem ser monitorados pela **interface de workflows**, onde é possível visualizar o status de execução:
+
+- **Status dos Jobs**: Acompanhar se o job foi concluído com sucesso ou falhou.
+- **Logs Detalhados**: Visualizar erros, exceções e tempo de execução.
+  
+Isso permite garantir que todas as alterações foram testadas antes de serem mescladas ou implantadas.
+
+## Benefícios do Processo de CI/CD
+- **Padronização e Legibilidade de Código**: O uso de **Black** e **Flake8** garante padrões de codificação e boas práticas.
+- **Validação Automática**: As alterações no código são automaticamente validadas, evitando problemas em produção.
+- **Transparência e Controle**: A interface de workflows do Databricks oferece uma visão clara de todos os jobs executados, facilitando a identificação de problemas e controle do pipeline.
+
+---
+
+Copie e cole este conteúdo na seção desejada da sua Wiki do GitHub.
+
+
 ## Detalhes da Arquitetura Medalhão
 
 ### Camada Bronze
