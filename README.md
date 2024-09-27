@@ -44,7 +44,7 @@ Azure Monitor: Ferramenta para coleta de logs e métricas de execução, desempe
 Este projeto utiliza o **GitHub Actions** para gerenciar o processo de CI/CD dos notebooks do **Azure Databricks**. O fluxo de trabalho garante que os notebooks sejam testados, validados e executados automaticamente sempre que houver alterações no repositório.
 
 ## Fluxo de CI/CD
-
+![Fluxograma CI_CD](./imagens/Fluxograma_ci_cd.png)
 
 
 ### 1. Integração com o GitHub
@@ -83,15 +83,7 @@ Os jobs do Databricks podem ser monitorados pela **interface de workflows**, ond
   
 Isso permite garantir que todas as alterações foram testadas antes de serem mescladas ou implantadas.
 
-## Benefícios do Processo de CI/CD
-- **Padronização e Legibilidade de Código**: O uso de **Black** e **Flake8** garante padrões de codificação e boas práticas.
-- **Validação Automática**: As alterações no código são automaticamente validadas, evitando problemas em produção.
-- **Transparência e Controle**: A interface de workflows do Databricks oferece uma visão clara de todos os jobs executados, facilitando a identificação de problemas e controle do pipeline.
-
----
-
-Copie e cole este conteúdo na seção desejada da sua Wiki do GitHub.
-
+![Workflow](./imagens/workflow_jobs.png)
 
 ## Detalhes da Arquitetura Medalhão
 
