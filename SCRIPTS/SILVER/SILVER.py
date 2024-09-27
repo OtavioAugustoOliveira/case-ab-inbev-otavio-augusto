@@ -174,7 +174,3 @@ adjusted_silver_df.write.format("delta") \
     .partitionBy("COUNTRY_NAME", "STATE_PROVINCE") \
     .option("path", full_output_path) \
     .saveAsTable("SILVER_BREWERY")
-
-# COMMAND ----------
-
-#teste
