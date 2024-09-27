@@ -45,7 +45,7 @@ output_keys = dbutils.widgets.get('output_keys')
 # Realiza a leitura dos dados na camada Bronze
 
 full_input_path = os.path.join(input_path, input_filename)
-bronze_df = spark.read.parquet(full_input_path)
+bronze_df = spark.read.format("delta").load(full_input_path)
    
 
 # COMMAND ----------
@@ -168,8 +168,12 @@ adjusted_silver_df = adjusted_silver_df.withColumn("DT_CREATED", current_timesta
 
 full_output_path = os.path.join(output_path, output_filename)
 
-# Salvar o DataFrame em formato Parquet no Azure Blob Storage
-adjusted_silver_df.write.mode("overwrite").partitionBy("COUNTRY_NAME", "STATE_PROVINCE").parquet(full_output_path) 
+# Salvar o DataFrame em formato Delta no Azure Blob Storage
+adjusted_silver_df.write.format("delta") \
+    .mode("overwrite") \
+    .partitionBy("COUNTRY_NAME", "STATE_PROVINCE") \
+    .option("path", full_output_path) \
+    .saveAsTable("SILVER_BREWERY")
 
 # COMMAND ----------
 

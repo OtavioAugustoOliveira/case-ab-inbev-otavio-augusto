@@ -4,7 +4,7 @@
 
 # COMMAND ----------
 
-from pyspark.sql.functions import col, current_timestamp, count, round
+from pyspark.sql.functions import col, current_timestamp, count, round, coalesce, lit
 import os
 
 # COMMAND ----------
@@ -43,7 +43,7 @@ output_filename = dbutils.widgets.get('output_filename')
 # Realiza a leitura dos dados na camada Silver
 
 full_input_path = os.path.join(input_path, input_filename)
-silver_df = spark.read.parquet(full_input_path)
+silver_df = spark.read.format("delta").load(full_input_path)
    
 
 # COMMAND ----------
@@ -53,13 +53,14 @@ silver_df = spark.read.parquet(full_input_path)
 
 # COMMAND ----------
 
-# Total de cervejarias por país
-total_breweries_by_country_df = (
-    silver_df.groupBy("COUNTRY_NAME")
-    .agg(count("BREWERY_ID").alias("TOTAL_BREWERIES"))
-)
+from pyspark.sql.functions import col, coalesce, lit, round
 
-# Cervejarias fechadas por país (onde brewery_type == "Closed")
+# Total de cervejarias por país e província
+total_breweries_by_country_df = silver_df.groupBy(
+    "COUNTRY_NAME"
+).agg(count("BREWERY_ID").alias("TOTAL_BREWERIES"))
+
+# Cervejarias fechadas por país e província (onde TYPE_OF_BREWERY == "Closed")
 closed_breweries_by_country_df = (
     silver_df.filter(col("TYPE_OF_BREWERY") == "Closed")
     .groupBy("COUNTRY_NAME")
@@ -69,15 +70,27 @@ closed_breweries_by_country_df = (
 # Unindo os dois dataframes e calculando a porcentagem de cervejarias fechadas
 closed_percentage_by_country_df = (
     closed_breweries_by_country_df.join(
-        total_breweries_by_country_df, on="COUNTRY_NAME", how="inner"
+        total_breweries_by_country_df,
+        on=["COUNTRY_NAME"],
+        how="right",
+    )
+    .withColumn(
+        "CLOSED_BREWERIES", coalesce(col("CLOSED_BREWERIES"), lit(0))  # Tratar nulos antes
+    )
+    .withColumn(
+        "TOTAL_BREWERIES", coalesce(col("TOTAL_BREWERIES"), lit(0))  # Tratar nulos antes
     )
     .withColumn(
         "PERCENTAGE_CLOSED",
-        round((col("CLOSED_BREWERIES") / col("TOTAL_BREWERIES")) * 100, 2)
+        round((col("CLOSED_BREWERIES") / col("TOTAL_BREWERIES")) * 100, 2),  # Calcular após tratar os nulos
     )
     .orderBy("PERCENTAGE_CLOSED", ascending=False)
 )
 
+
+# COMMAND ----------
+
+total_breweries_by_country_df.filter(col('COUNTRY_NAME') == 'United States').display()
 
 # COMMAND ----------
 
@@ -104,8 +117,12 @@ adjusted_closed_percentage_by_country_df.display()
 
 full_output_path = os.path.join(output_path, output_filename)
 
-# Salvar o DataFrame em formato Parquet no Azure Blob Storage
-closed_percentage_by_country_df.write.mode("overwrite").parquet(full_output_path) 
+# Salvar o DataFrame em formato Delta no Azure Blob Storage
+
+closed_percentage_by_country_df.write.format("delta") \
+    .mode("overwrite") \
+    .option("path", full_output_path) \
+    .saveAsTable("CLOSED_BREWERIES_BY_COUNTRY")
 
 # COMMAND ----------
 

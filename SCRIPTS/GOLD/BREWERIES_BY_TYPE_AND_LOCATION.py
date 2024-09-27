@@ -43,7 +43,7 @@ output_filename = dbutils.widgets.get('output_filename')
 # Realiza a leitura dos dados na camada Silver
 
 full_input_path = os.path.join(input_path, input_filename)
-silver_df = spark.read.parquet(full_input_path)
+silver_df = spark.read.format("delta").load(full_input_path)
    
 
 # COMMAND ----------
@@ -86,8 +86,12 @@ adjusted_breweries_by_type_and_location_df.display()
 
 full_output_path = os.path.join(output_path, output_filename)
 
-# Salvar o DataFrame em formato Parquet no Azure Blob Storage
-breweries_by_type_and_location_df.write.mode("overwrite").parquet(full_output_path) 
+# Salvar o DataFrame em formato Delta no Azure Blob Storage
+
+breweries_by_type_and_location_df.write.format("delta") \
+    .mode("overwrite") \
+    .option("path", full_output_path) \
+    .saveAsTable("BREWERIES_BY_TYPE_AND_LOCATION")
 
 # COMMAND ----------
 
