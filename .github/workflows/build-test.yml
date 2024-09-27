@@ -60,7 +60,7 @@ jobs:
           CHANGED_FILES: ${{ steps.detect_changes.outputs.changed_files }}
           EXISTING_CLUSTER_ID: ${{ secrets.EXISTING_CLUSTER_ID }}
          
-      # - name: Workspace Cleanup
-      #   run: |
-      #     bash .github/workflows/templates/workspace_cleanup.sh
-      #   run: bash .github/workflows/templates/workspace_cleanup.sh
+       - name: Workspace Cleanup
+         run: |
+           bash .github/workflows/templates/workspace_cleanup.sh
+         run: bash .github/workflows/templates/workspace_cleanup.sh
