@@ -4,7 +4,7 @@
 
 # COMMAND ----------
 
-from pyspark.sql.functions import col, current_timestamp, count, round
+from pyspark.sql.functions import col, current_timestamp, count, round, coalesce, lit
 import os
 
 # COMMAND ----------
@@ -43,7 +43,7 @@ output_filename = dbutils.widgets.get('output_filename')
 # Realiza a leitura dos dados na camada Silver
 
 full_input_path = os.path.join(input_path, input_filename)
-silver_df = spark.read.parquet(full_input_path)
+silver_df = spark.read.format("delta").load(full_input_path)
    
 
 # COMMAND ----------
@@ -52,10 +52,6 @@ silver_df = spark.read.parquet(full_input_path)
 # MAGIC ## Análises Agregadas
 
 # COMMAND ----------
-
-# Análise de presença na internet: 
-# Qual perfil de cervejaria costuma ter maior indice de preenchimento de url e telefone para contato?
-
 
 # Total de cervejarias por tipo
 total_breweries_df = (
@@ -72,8 +68,12 @@ internet_presence_df = (
 
 # Unindo os dois dataframes
 internet_presence_with_percentage_df = (
-    internet_presence_df.join(
-        total_breweries_df, on="TYPE_OF_BREWERY", how="inner"
+    total_breweries_df.join(
+        internet_presence_df, on="TYPE_OF_BREWERY", how="left"
+    )
+    .withColumn(
+        "QUANTITY_OF_BREWERIES_PRESENT_IN_INTERNET",
+        coalesce(col("QUANTITY_OF_BREWERIES_PRESENT_IN_INTERNET"), lit(0))
     )
     .withColumn(
         "PERCENTAGE_PRESENT_IN_INTERNET",
@@ -83,6 +83,7 @@ internet_presence_with_percentage_df = (
     )
     .orderBy("PERCENTAGE_PRESENT_IN_INTERNET", ascending=False)
 )
+
 
 # COMMAND ----------
 
@@ -109,8 +110,12 @@ adjusted_internet_presence_with_percentage_df.display()
 
 full_output_path = os.path.join(output_path, output_filename)
 
-# Salvar o DataFrame em formato Parquet no Azure Blob Storage
-internet_presence_with_percentage_df.write.mode("overwrite").parquet(full_output_path) 
+# Salvar o DataFrame em formato Delta no Azure Blob Storage
+
+internet_presence_with_percentage_df.write.format("delta") \
+    .mode("overwrite") \
+    .option("path", full_output_path) \
+    .saveAsTable("INTERNET_PRESENCE")
 
 # COMMAND ----------
 

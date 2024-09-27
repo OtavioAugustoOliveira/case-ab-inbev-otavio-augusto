@@ -129,8 +129,12 @@ bronze_df = df_breweries.withColumn("DT_CREATED", current_timestamp).withColumn(
 full_output_path = os.path.join(output_path, output_filename)
 
 
-# Salvar o DataFrame em formato Parquet no Azure Blob Storage
-bronze_df.write.mode("overwrite").parquet(full_output_path) 
+# Salvar o DataFrame em formato Delta no Azure Blob Storage
+bronze_df.write.format("delta") \
+    .mode("overwrite") \
+    .option("overwriteSchema", "true") \
+    .option("path", full_output_path) \
+    .saveAsTable("BRONZE_BREWERY")
 
 
 
