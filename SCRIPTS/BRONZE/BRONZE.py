@@ -136,3 +136,7 @@ bronze_df.write.format("delta") \
     .option("path", full_output_path) \
     .saveAsTable("BRONZE_BREWERY")
 
+
+# COMMAND ----------
+
+#teste

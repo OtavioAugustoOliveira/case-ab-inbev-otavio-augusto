@@ -121,7 +121,3 @@ closed_percentage_by_country_df.write.format("delta") \
     .mode("overwrite") \
     .option("path", full_output_path) \
     .saveAsTable("CLOSED_BREWERIES_BY_COUNTRY")
-
-# COMMAND ----------
-
-#teste

@@ -116,7 +116,3 @@ internet_presence_with_percentage_df.write.format("delta") \
     .mode("overwrite") \
     .option("path", full_output_path) \
     .saveAsTable("INTERNET_PRESENCE")
-
-# COMMAND ----------
-
-#teste

@@ -92,7 +92,3 @@ breweries_by_type_and_location_df.write.format("delta") \
     .mode("overwrite") \
     .option("path", full_output_path) \
     .saveAsTable("BREWERIES_BY_TYPE_AND_LOCATION")
-
-# COMMAND ----------
-
-#teste
