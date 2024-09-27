@@ -53,8 +53,6 @@ silver_df = spark.read.format("delta").load(full_input_path)
 
 # COMMAND ----------
 
-from pyspark.sql.functions import col, coalesce, lit, round
-
 # Total de cervejarias por país e província
 total_breweries_by_country_df = silver_df.groupBy(
     "COUNTRY_NAME"
