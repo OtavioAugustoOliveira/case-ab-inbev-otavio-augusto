@@ -193,7 +193,7 @@ Realizar agregações e cálculos finais para análises e visualizações.
 
 ---
 
-#Monitoramento do Pipeline com Azure Monitor
+# Monitoramento do Pipeline com Azure Monitor
 
 Vamos usar o Azure Monitor para monitorar e enviar alertas sobre o status do pipeline de dados. Para isso, é necessário criar um Log Analytics Workspace. Essa ferramenta, por sua vez, serve para centralizar todos os logs e métricas dos serviço usados na nossa arquitetura ( Data Factory, Databricks e Blob Storage).
 
