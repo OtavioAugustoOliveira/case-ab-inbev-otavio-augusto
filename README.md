@@ -19,11 +19,11 @@
 5. [Orquestração com Azure Data Factory](#orquestração-com-azure-data-factory)
    - [Estrutura dos Pipelines](#estrutura-dos-pipelines)
    - [Controle de Atualização e Retry](#controle-de-atualização-e-retry)
-6. [Monitoramento do Pipeline com Azure Monitor](#monitoramento-do-pipeline-com-azure-monitor)
-7. [Processo ETL no Databricks](#processo-etl-no-databricks)
+6. [Processo ETL no Databricks](#processo-etl-no-databricks)
    - [Camada Bronze](#1-camada-bronze)
    - [Camada Silver](#2-camada-silver)
    - [Camada Gold](#3-camada-gold)
+7. [Monitoramento do Pipeline com Azure Monitor](#monitoramento-do-pipeline-com-azure-monitor)
 8. [Visualizações e Dashboards](#visualizações-e-dashboards)
    - [Painéis Criados](#painéis-criados)
 
