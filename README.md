@@ -101,6 +101,35 @@ Os dados são armazenados no formato **Delta Lake** para oferecer transações s
 ### Integração com Databricks
 - O Blob Storage serve como fonte e destino para leitura e escrita dos dados transformados em todas as camadas do pipeline de ETL.
 
+# Orquestração com Azure Data Factory
+
+A orquestração do pipeline de ETL foi feita utilizando o **Azure Data Factory**, permitindo o agendamento e execução automatizada dos processos de dados.
+
+
+
+## Estrutura dos Pipelines
+
+- **Pipelines por Camada**: 
+  - Um pipeline separado foi criado para cada script de processamento (Bronze, Silver e Gold).
+  - Esses pipelines refletem as camadas de dados e foram montados de forma independente.
+
+![ADF Organização](./imagens/adf_organizacao.png)
+
+- **Pipeline Principal (Sequencial)**:
+  - Um pipeline mestre foi criado para rodar todos os pipelines de camada de forma sequencial.
+
+![Workflow](./imagens/adf_pipeline.png)
+  
+## Controle de Atualização e Retry
+
+- **Trigger Diário**: O pipeline sequencial é acionado diariamente para garantir a execução regular dos ETLs.
+- **Estrutura de Retry**:
+  - Implementada apenas na **camada Bronze**, que depende de dados provenientes de uma **API externa**.
+  - O Retry foi adicionado para garantir a reexecução automática caso ocorra uma falha ao acessar a API.
+
+> Nota: Não há informações sobre a frequência de atualização dos dados na fonte externa.
+
+
 # Detalhes da Arquitetura Medalhão
 
 ### Camada Bronze
