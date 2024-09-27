@@ -1,14 +1,11 @@
 name: Build and Test
 
 on:
-  push:
-    branches:
-      - DEV  # Branch que aciona o pipeline
-    paths:
-      - 'SCRIPTS/**'
   pull_request:
     branches:
       - DEV
+    paths:
+      - 'SCRIPTS/**'
 
 jobs:
   build:
