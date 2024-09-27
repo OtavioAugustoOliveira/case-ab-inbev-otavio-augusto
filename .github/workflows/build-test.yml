@@ -61,6 +61,5 @@ jobs:
           EXISTING_CLUSTER_ID: ${{ secrets.EXISTING_CLUSTER_ID }}
          
        - name: Workspace Cleanup
-         run: |
-           bash .github/workflows/templates/workspace_cleanup.sh
          run: bash .github/workflows/templates/workspace_cleanup.sh
+
