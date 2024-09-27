@@ -165,7 +165,7 @@ A orquestração do pipeline de ETL foi feita utilizando o **Azure Data Factory*
 - **Objetivo**: Salvar os resultados finais em tabelas Delta para consultas SQL no Hive Metastore.
 
 
-## Visualizações e Dashboards
+# Visualizações e Dashboards
 Os dashboards interativos foram criados no DataBricks a partir de consultas SQL executadas no Hive Metastore para explorar os dados de forma dinâmica e visual. Abaixo estão as visualizações desenvolvidas:
 
 ### Painéis Criados
