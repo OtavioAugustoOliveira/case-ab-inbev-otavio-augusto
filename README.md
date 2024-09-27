@@ -28,15 +28,15 @@ O principal objetivo do projeto é construir um pipeline de dados eficiente e es
 
 A arquitetura do projeto é composta pelos seguintes componentes:
 
-Azure Databricks: Utilizado para realizar as transformações de dados (ETLs) e para criar painéis de visualização interativos. Um cluster Spark é configurado para processar os dados de forma eficiente.
+**Azure Databricks:** Utilizado para realizar as transformações de dados (ETLs) e para criar painéis de visualização interativos. Um cluster Spark é configurado para processar os dados de forma eficiente.
 
-GitHub Actions: Gerencia o processo de CI/CD (Integração Contínua e Entrega Contínua) para manter o código atualizado e garantir a implantação automatizada dos notebooks e pipelines.
+**GitHub Actions:** Gerencia o processo de CI/CD (Integração Contínua e Entrega Contínua) para manter o código atualizado e garantir a implantação automatizada dos notebooks e pipelines.
 
-Azure Data Lake (Blob Storage): Armazena os dados em diferentes camadas (Bronze, Silver e Gold), permitindo o versionamento e a separação de dados brutos, processados e prontos para análise.
+**Azure Data Lake (Blob Storage):** Armazena os dados em diferentes camadas (Bronze, Silver e Gold), permitindo o versionamento e a separação de dados brutos, processados e prontos para análise.
 
-Azure Data Factory: Orquestra a execução dos notebooks no Databricks, garantindo a automação e o agendamento dos processos ETL.
+**Azure Data Factory:** Orquestra a execução dos notebooks no Databricks, garantindo a automação e o agendamento dos processos ETL.
 
-Azure Monitor: Ferramenta para coleta de logs e métricas de execução, desempenho e falhas dos componentes da arquitetura, incluindo Data Factory, Databricks, e Blob Storage. Configurado com alertas e dashboards para monitorar o status do pipeline e qualidade dos dados em tempo real.
+**Azure Monitor:** Ferramenta para coleta de logs e métricas de execução, desempenho e falhas dos componentes da arquitetura, incluindo Data Factory, Databricks, e Blob Storage. Pode ser configurado com alertas e dashboards para monitorar o status do pipeline e qualidade dos dados em tempo real.
 
 # CI/CD com GitHub Actions para Databricks
 
