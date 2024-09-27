@@ -130,40 +130,53 @@ A orquestração do pipeline de ETL foi feita utilizando o **Azure Data Factory*
 > Nota: Não há informações sobre a frequência de atualização dos dados na fonte externa.
 
 
-# Detalhes da Arquitetura Medalhão
+# Processo ETL no Databricks
 
-### Camada Bronze
-- **Objetivo**: Armazenar dados brutos coletados de várias fontes.
-- **Processo**: Ingestão dos dados de cervejarias e armazenamento como arquivos **Delta** no Azure Blob Storage.
+## 1. Camada Bronze
 
+### Objetivo
+Armazenar dados brutos coletados de fontes externas (API) sem alterações, como uma "fonte da verdade".
 
-### Camada Silver
-- **Objetivo**: Limpar e transformar dados da camada Bronze.
-- **Processo**: Remoção de duplicatas, padronização de tipos de dados e enriquecimento dos dados para análises.
+### Detalhes do Processo
+- **Ingestão**: Extração dos dados brutos de uma API externa, carregando-os em um DataFrame PySpark.
+- **Controle de versão**: Adiciona colunas `DT_CREATED` e `DT_UPDATED`.
+- **Armazenamento**: Dados são salvos no formato **Delta** no **Blob Storage** na pasta `BRONZE`, sem transformações ou limpeza.
 
+---
 
-### Camada Gold
-- **Objetivo**: Agregar e calcular métricas importantes para análise de negócios.
-- **Processo**: Transformações finais para criar conjuntos de dados para relatórios.
+## 2. Camada Silver
 
+### Objetivo
+Limpar, padronizar e transformar os dados da camada Bronze para facilitar análises e cálculos. Remove inconsistências e normaliza os dados para um formato padrão.
 
-## Processo de Agregação e Transformações
+### Detalhes do Processo
+- **Leitura e Sanitização**: Lê os dados brutos, Remove duplicatas com base no identificador principal (id), mantendo os registros mais recentes. e preenche campos críticos nulos com valores padrão.
+- **Preenchimento de campos**: Preenche valores nulos em campos críticos (name, city, state, etc.) com valores padrão ("Unknown"). 
+- **Normalização de Strings**: Padroniza campos de texto (capitalização e remoção de espaços).
+- **Renomeação de Colunas**: Ajusta nomes de colunas para um formato padronizado (ex.: `name` → `BREWERY_NAME`).
+- **Armazenamento**: Salva os dados transformados no **Blob Storage** na pasta `SILVER`, particionando por `COUNTRY_NAME` e `STATE_PROVINCE`.
 
-### Total de Cervejarias por País e Província
-- **Descrição**: Agrupar todas as cervejarias por país e província, contando o total para cada combinação.
+---
 
+## 3. Camada Gold
 
-### Cálculo de Cervejarias Fechadas
-- **Descrição**: Filtrar todas as cervejarias fechadas e agrupar por país e província.
+### Objetivo
+Realizar agregações e cálculos finais para análises e visualizações.
 
+### Detalhes do Processo
+1. **Cervejarias por Tipo e Localização**:
+   - Agrupa e conta cervejarias por `TYPE_OF_BREWERY`, `CITY_NAME`, `STATE_PROVINCE`, e `COUNTRY_NAME`.
+2. **Cervejarias Fechadas por País e Província**:
+   - Calcula o total e a porcentagem de cervejarias fechadas (`TYPE_OF_BREWERY == "Closed"`).
+   - Usa `coalesce` para tratar nulos, preenchendo com zero.
+3. **Presença Online por Tipo de Cervejaria**:
+   - Analisa presença online (`WEBSITE` e `CONTACT_PHONE`) por tipo de cervejaria.
+   - Calcula o percentual de presença online para cada tipo.
 
-### Presença Online das Cervejarias
-- **Descrição**: Analisar a presença online das cervejarias (informações de website e telefone).
+### Armazenamento
+- Cada agregação é salva como uma tabela separada no **Blob Storage** na pasta `GOLD`, usando o formato Delta (ex.: `GOLD_BREWERIES_BY_TYPE_AND_LOCATION`).
 
-
-## Criação e Configuração de Tabelas Delta
-- **Objetivo**: Salvar os resultados finais em tabelas Delta para consultas SQL no Hive Metastore.
-
+---
 
 # Visualizações e Dashboards
 Os dashboards interativos foram criados no DataBricks a partir de consultas SQL executadas no Hive Metastore para explorar os dados de forma dinâmica e visual. Abaixo estão as visualizações desenvolvidas:
@@ -177,7 +190,3 @@ Os dashboards interativos foram criados no DataBricks a partir de consultas SQL 
 
 3. **Painel 3: Análise de presença online por tipo de cervejaria**
    ![Total vs. Presença Online](./imagens/graph_3_internet_presence.png)
-
-
-Se tiver dúvidas ou precisar de ajustes, por favor, entre em contato! otavioaugustomachadodeoliveira@gmail.com
-
