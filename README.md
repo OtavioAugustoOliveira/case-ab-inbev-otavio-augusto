@@ -85,7 +85,23 @@ Isso permite garantir que todas as alterações foram testadas antes de serem me
 
 ![Workflow](./imagens/workflow_jobs.png)
 
-## Detalhes da Arquitetura Medalhão
+# Uso do Azure Blob Storage no Pipeline
+
+![Blob Storage](./imagens/blob_storage_container.png)
+
+O **Azure Blob Storage** atua como a principal camada de armazenamento para dados em diferentes etapas do pipeline (Bronze, Silver, Gold):
+
+### Formato Delta
+Os dados são armazenados no formato **Delta Lake** para oferecer transações seguras, controle de versão e melhor desempenho de leitura e escrita.
+
+### Partitionamento e Organização
+- **Partitionamento**: Dados particionados por `COUNTRY_NAME` e `STATE_PROVINCE` para otimizar consultas.
+- **Estrutura de Caminhos**: Dados organizados em `/BRONZE/`, `/SILVER/` e `/GOLD/` para fácil gerenciamento e acesso.
+
+### Integração com Databricks
+- O Blob Storage serve como fonte e destino para leitura e escrita dos dados transformados em todas as camadas do pipeline de ETL.
+
+# Detalhes da Arquitetura Medalhão
 
 ### Camada Bronze
 - **Objetivo**: Armazenar dados brutos coletados de várias fontes.
