@@ -65,10 +65,17 @@ A solução está estruturada em uma arquitetura de **3 camadas de dados** no **
 
 
 ## Visualizações e Dashboards
-Os dashboards interativos foram criados a partir de consultas SQL executadas no Hive Metastore para explorar os dados de forma dinâmica e visual. Abaixo estão as visualizações desenvolvidas:
+Os dashboards interativos foram criados no DataBricks a partir de consultas SQL executadas no Hive Metastore para explorar os dados de forma dinâmica e visual. Abaixo estão as visualizações desenvolvidas:
 
 ### Painéis Criados
+1. **Painel 1: Quantidade de cervejarias por tipo e localização.**
+   ![Porcentagem de Cervejarias Fechadas](./imagens/graph_1_breweries_by_type_location.png)
 
+2. **Painel 2: Porcentagem de cervejarias inativas por país**
+   ![Distribuição de Presença Online](./imagens/graph_2_closed_breweries_by_country.png)
+
+3. **Painel 3: Análise de presença online por tipo de cervejaria**
+   ![Total vs. Presença Online](./imagens/graph_3_internet_presence.png)
 
 
 Se tiver dúvidas ou precisar de ajustes, por favor, entre em contato! otavioaugustomachadodeoliveira@gmail.com
