@@ -1,18 +1,31 @@
 # Análise de Cervejarias no Azure Databricks
 
 ## Índice
-1. [Objetivo](#objetivo)
+1. [Objetivo do Projeto](#objetivo-do-projeto)
 2. [Arquitetura Geral](#arquitetura-geral)
-3. [Detalhes da Arquitetura Medalhão](#detalhes-da-arquitetura-medalhão)
-   - [Camada Bronze](#camada-bronze)
-   - [Camada Silver](#camada-silver)
-   - [Camada Gold](#camada-gold)
-4. [Processo de Agregação e Transformações](#processo-de-agregação-e-transformações)
-   - [Total de Cervejarias por País e Província](#total-de-cervejarias-por-país-e-província)
-   - [Cálculo de Cervejarias Fechadas](#cálculo-de-cervejarias-fechadas)
-   - [Presença Online das Cervejarias](#presença-online-das-cervejarias)
-5. [Criação e Configuração de Tabelas Delta](#criação-e-configuração-de-tabelas-delta)
-6. [Visualizações e Dashboards](#visualizações-e-dashboards)
+3. [CI/CD com GitHub Actions para Databricks](#cicd-com-github-actions-para-databricks)
+   - [Visão Geral](#visão-geral)
+   - [Fluxo de CI/CD](#fluxo-de-cicd)
+     - [Integração com o GitHub](#1-integração-com-o-github)
+     - [Detecção de Mudanças via Pull Request](#2-detecção-de-mudanças-via-pull-request-pr-na-branch-dev)
+     - [Formatação com Black](#3-formatação-automática-com-black)
+     - [Validação com Flake8](#4-validação-de-qualidade-de-código-com-flake8)
+     - [Execução de Notebooks no Databricks](#5-execução-dos-notebooks-alterados-no-databricks)
+     - [Acompanhamento via Workflows](#6-acompanhamento-de-execução-via-workflows-no-databricks)
+4. [Uso do Azure Blob Storage no Pipeline](#uso-do-azure-blob-storage-no-pipeline)
+   - [Formato Delta](#formato-delta)
+   - [Partitionamento e Organização](#partitionamento-e-organização)
+   - [Integração com Databricks](#integração-com-databricks)
+5. [Orquestração com Azure Data Factory](#orquestração-com-azure-data-factory)
+   - [Estrutura dos Pipelines](#estrutura-dos-pipelines)
+   - [Controle de Atualização e Retry](#controle-de-atualização-e-retry)
+6. [Processo ETL no Databricks](#processo-etl-no-databricks)
+   - [Camada Bronze](#1-camada-bronze)
+   - [Camada Silver](#2-camada-silver)
+   - [Camada Gold](#3-camada-gold)
+7. [Visualizações e Dashboards](#visualizações-e-dashboards)
+   - [Painéis Criados](#painéis-criados)
+
 
 ---
 ## Objetivo do Projeto
