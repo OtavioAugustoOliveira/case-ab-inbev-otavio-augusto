@@ -1,9 +1,9 @@
 # Análise de Cervejarias no Azure Databricks
 
 ## Índice
-1. [Introdução](#introdução)
+1. [Objetivo](#objetivo)
 2. [Arquitetura Geral](#arquitetura-geral)
-3. [Detalhes do Pipeline de Dados](#detalhes-do-pipeline-de-dados)
+3. [Detalhes da Arquitetura Medalhão](#detalhes-da-arquitetura-medalhão)
    - [Camada Bronze](#camada-bronze)
    - [Camada Silver](#camada-silver)
    - [Camada Gold](#camada-gold)
@@ -15,16 +15,13 @@
 6. [Visualizações e Dashboards](#visualizações-e-dashboards)
 
 ---
-
-## Introdução
-Este projeto tem como objetivo analisar dados de cervejarias a partir de diversas perspectivas, tais como a quantidade total de cervejarias ativas, a porcentagem de cervejarias fechadas e a presença online delas. O processo busca responder a perguntas como: Quais países e regiões têm o maior número de cervejarias fechadas? Ou ainda, Quais tipos de cervejarias estão mais presentes online com informações como site e telefone?.
-
 ## Objetivo do Projeto
-O objetivo principal é analisar as cervejarias por diferentes dimensões:
-- Quantificar o total de cervejarias por **país** e **província**.
-- Analisar a porcentagem de cervejarias fechadas.
-- Estudar a presença online das cervejarias (com base em informações de URL e telefone).
-- Criar visualizações e dashboards para insights sobre a distribuição das cervejarias.
+O principal objetivo do projeto é construir um pipeline de dados eficiente e escalável para processar, transformar e analisar informações sobre cervejarias, contemplando:
+
+- Integração e transformação de dados para facilitar a análise de cervejarias por país e província.
+- Cálculo de métricas relevantes, como o percentual de cervejarias fechadas por região.
+- Avaliação da presença online das cervejarias para identificar tendências de mercado digital.
+- Construção de visualizações e dashboards interativos para simplificar a exploração dos dados e apoiar decisões baseadas em insights.
 
 ## Arquitetura Geral
 A solução está estruturada em uma arquitetura de **3 camadas de dados** no **Azure Databricks**, usando **Delta Lake**:
@@ -32,7 +29,7 @@ A solução está estruturada em uma arquitetura de **3 camadas de dados** no **
 2. **Silver**: Dados limpos e transformados para análise.
 3. **Gold**: Dados finalizados para relatórios e visualizações.
 
-## Detalhes do Pipeline de Dados
+## Detalhes da Arquitetura Medalhão
 
 ### Camada Bronze
 - **Objetivo**: Armazenar dados brutos coletados de várias fontes.
