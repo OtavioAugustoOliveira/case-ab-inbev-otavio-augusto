@@ -63,6 +63,10 @@ breweries_by_type_and_location_df = (
 
 # COMMAND ----------
 
+breweries_by_type_and_location_df.display()
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC ## Exportação do Dataframe
 

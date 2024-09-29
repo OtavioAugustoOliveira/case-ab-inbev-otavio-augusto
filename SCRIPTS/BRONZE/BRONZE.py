@@ -119,6 +119,10 @@ bronze_df = df_breweries.withColumn("DT_CREATED", current_timestamp).withColumn(
 
 # COMMAND ----------
 
+bronze_df.display()
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC ## Exportação do Dataframe
 
